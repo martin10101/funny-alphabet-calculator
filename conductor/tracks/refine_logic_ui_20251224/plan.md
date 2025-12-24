@@ -1,30 +1,29 @@
-# Track Plan: Refine the Alphabet Logic and UI Polish
+# Track Plan: Refine Alphabet Logic & UI Polish
 
-## Phase 1: Logic Foundation & Testing
-This phase focuses on defining and verifying the "funny" arithmetic logic before applying UI changes.
+## Phase 1: Logic Engine & Mathematical Foundation
+Establish a bulletproof arithmetic core using TDD principles.
 
-- [x] Task: Create logic test suite (TDD Setup) (776ddbe)
-    - Write tests for `A+A=B`, `B+B=BB`, `BB+BB=BBB`, and subtraction edge cases.
-- [x] Task: Implement Refined Alphabet Logic (776ddbe)
-    - Update the calculation engine in `app.js` to pass the new test cases.
-- [x] Task: Conductor - User Manual Verification 'Logic Foundation' (Protocol in workflow.md)
+- [x] **Task 1.1: Test Suite Architecture**: Initialize `logic.test.js` with `require`-based environment for pure function testing.
+- [x] **Task 1.2: Normalization Logic**: Implement the greedy power-of-2 decomposition algorithm (`valueToTokens`) and its inverse.
+- [x] **Task 1.3: Recursive/Iterative Parser**: Build a robust expression parser that handles whitespace and operator precedence (currently just addition).
+- [x] **Task 1.4: Validation & Error Handling**: Implement structured error reporting for invalid tokens and malformed syntax.
 
-## Phase 2: UI Overhaul ("Serious Calculator")
-This phase applies the visual guidelines to the HTML and CSS.
+## Phase 2: "Serious Business" UI Implementation
+Build the industrial-grade interface.
 
-- [x] Task: Update HTML Structure (776ddbe)
-    - Add a dedicated display area and a grid of "calculator" buttons (A, B, +, -, =, Clear).
-- [x] Task: Apply "Serious Calculator" Styles (776ddbe)
-    - Implement the gray/green color scheme, monospaced fonts, and tactile button effects in `style.css`.
-- [x] Task: Connect UI Buttons to Logic (776ddbe)
-    - Ensure clicking buttons updates the input field and triggers calculations correctly.
-- [x] Task: Conductor - User Manual Verification 'UI Overhaul' (Protocol in workflow.md)
+- [x] **Task 2.1: Atomic CSS & Theming**: Define a CSS variable system for the "Serious Business" palette and implement a responsive Grid layout.
+- [x] **Task 2.2: Semantic Display & Keypad**: Construct the HTML5 structure using appropriate ARIA roles and semantic tags (`<main>`, `<section>`, `<output>`).
+- [x] **Task 2.3: Event Orchestration**: Implement a central event delegation pattern for the virtual keypad and map physical key events.
 
-## Phase 3: Final Polish & Edge Cases
-Handling errors and final verification.
+## Phase 3: Secondary Features & UX Polish
+Enhance the system with generative tools and refined interactions.
 
-- [x] Task: Implement Serious Error Messaging (776ddbe)
-    - Add logic to display absurdly serious error messages for invalid inputs.
-- [x] Task: Final Verification & Documentation (f3eebbe)
-    - Ensure all tests pass, coverage is >80%, and the README is updated if necessary.
-- [x] Task: Conductor - User Manual Verification 'Final Polish' (Protocol in workflow.md)
+- [x] **Task 3.1: Sequence Generator**: Implement the "Chain Generation" logic to demonstrate the system's geometric progression properties.
+- [x] **Task 3.2: Stochastic Input**: Create a "Surprise" generator that produces valid random expressions for stress-testing.
+- [x] **Task 3.3: Interactive Feedback**: Add button active states, transition animations, and accessible error banners.
+
+## Phase 4: Verification & Readiness
+Final quality gates before track closure.
+
+- [x] **Task 4.1: Final Integration Test**: Execute a comprehensive test pass across all logical axioms and UI components.
+- [x] **Task 4.2: Documentation & Checkpoint**: Synchronize project state and verify all Acceptance Criteria in `spec.md`.

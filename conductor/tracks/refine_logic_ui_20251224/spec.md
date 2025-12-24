@@ -1,70 +1,64 @@
-# Track Specification: Refine the Alphabet Logic and UI Polish
+# Track Specification: Refine Alphabet Logic & UI Polish
 
-## Overview
-This track aims to mature the "Funny Alphabet Calculator" by solidifying its unique arithmetic logic, handling edge cases, and applying a cohesive "Serious Calculator" visual identity as per the project guidelines.
+## 1. Executive Summary
+This track transitions the Alphabetical Arithmetic Engine (AAE) from a proof-of-concept to a robust, production-grade utility. It focuses on two pillars: a mathematically rigorous implementation of binary-weighted tokenization and a "Serious Business" user interface designed to contrast with the inherent absurdity of the logic.
 
-## Requirements
+## 2. Mathematical & Logical Specification
+The AAE operates on a base-2 positional system where value is determined by the length of "B" tokens and the presence of "A".
 
-### 1. Alphabet Logic Refinement
-- **Addition:** 
-    - A + A = B
-    - B + B = BB
-    - BB + BB = BBB
-    - (Pattern: The length of the result is determined by the total "value" where A=1, B=2. For strings, the value is the sum of characters. The result is represented by the character with the highest value that doesn't exceed the total, repeated as necessary.)
-    - *Correction for current idea:* The user wants `A+A=B` and `BB+BB=BBB`. Let's formalize: 
-        - Let `val(A) = 1`, `val(B) = 2`, `val(C) = 3`, etc.
-        - The "value" of a string is the sum of the values of its characters.
-        - Result of `X + Y` is a string `Z` such that `val(Z) = val(X) + val(Y)`.
-        - To make it "funny" and follow the examples:
-            - If `val(Z)` exists as a single letter (e.g., 2 is 'B'), use that letter.
-            - If `val(Z)` is greater than the highest defined letter (let's say 'B' for now), represent it by repeating the highest letter.
-            - Example: `val(BB + BB) = 4 + 4 = 8`. If max letter is B (val 2), result is `BBBB`. 
-            - *Wait, user example says `BB + BB = BBB`.* Let's re-read: `A + A = B` (1+1=2), `B + B = BB` (2+2=4? No, if B=2, then BB=4). `BB + BB = BBB` (4+4=8? No, if result is BBB, and B=2, then 8 = 3 * B?).
-            - **Revised Logic:** The result is always a repetition of a single character. The character used is determined by the "tier". Tier 1 is A, Tier 2 is B.
-            - `A (1) + A (1) = B (2)`
-            - `B (2) + B (2) = BB (4)`
-            - `BB (4) + BB (4) = BBB (8)`? No, the user example says `BB + BB = BBB`.
-            - Let's look at the counts:
-                - `A + A` (2 A's) -> `B` (1 B)
-                - `B + B` (2 B's) -> `BB` (2 B's) - *Wait, this is confusing.*
-            - Let's try: `count(Result) = count(Input1) + count(Input2) - 1`.
-                - `A (1) + A (1)` -> `2 - 1 = 1`. Character moves up? A -> B. Result: `B`.
-                - `B (1) + B (1)` -> `1 + 1 = 2`. Character stays B. Result: `BB`.
-                - `BB (2) + BB (2)` -> `2 + 2 = 4`. *Wait, user said BBB.* `4 - 1 = 3`. Result: `BBB`.
-            - **Consistent Logic Rule:** 
-                1. Convert input strings to counts.
-                2. If addition, `ResultCount = Count1 + Count2`.
-                3. If the input is 'A', the first addition `A+A` results in `B` (count 1).
-                4. Subsequent additions with 'B' just sum the counts and subtract 1? No, `B+B = BB` (1+1=2), `BB+BB = BBB` (2+2=4? No, 2+2=4, user says BBB which is 3).
-                5. Let's use: `ResultCount = Count1 + Count2 - 1` for all additions except the very first base case.
-                6. **Actually, let's keep it simpler for the "Funny" part:** 
-                   - `A` is 1. `B` is 2.
-                   - Value of string = (count of chars) * (value of char).
-                   - `A+A` = 1+1 = 2. Value 2 is `B`.
-                   - `B+B` = 2+2 = 4. Value 4. Since max char is B, we use `BB` (2*2).
-                   - `BB+BB` = 4+4 = 8. Value 8. Using B, it's `BBBB` (4*B). 
-                   - *But the user specifically said `BB + BB = BBB`.* This implies a logarithmic or custom scale.
-                   - Let's go with: `Result = repeat(B, length(Input1) + length(Input2) - 1)` for B-based logic.
-                   - For A: `A + A = B`.
+### 2.1 Token-to-Value Mapping
+| Token | Type | Value ($V$) | Formula |
+| :--- | :--- | :--- | :--- |
+| `A` | Unit | 1 | $2^0$ |
+| `B` | Base | 2 | $2^1$ |
+| `BB` | Compound | 4 | $2^2$ |
+| `B` $\times n$ | General | $2^n$ | $2^n$ |
 
-- **Subtraction (New):** Implement "funny" subtraction. `B - A = A`. `BB - B = B`.
-- **Invalid Input:** Handle non-A/B characters with a serious error message: "Input Error: Character out of logical bounds."
+### 2.2 Re-tokenization Algorithm (Normalization)
+Post-calculation, values must be normalized into the "Greedy Canonical Form":
+1. Decompose the integer sum into powers of 2 (binary representation).
+2. Map each $2^n$ where $n > 0$ to a single token of $n$ "B"s.
+3. Map $2^0$ to token "A".
+4. Order tokens by descending value (largest first).
 
-### 2. UI Polish ("Serious Calculator")
-- **Color Scheme:** Gray backgrounds (#D1D1D1), LCD green display area (#9DBF9E).
-- **Fonts:** Monospaced (`Courier New`).
-- **Layout:** A centered, rectangular calculator "body" with a clear display area at the top and buttons below.
-- **Interactions:** Hover effects and active states for buttons to simulate a tactile feel.
+**Complexity Requirement**: The algorithm must operate in $O(\log_2 V)$ time.
 
-## Technical Tasks
-- Create a test suite for the alphabet logic.
-- Refactor `app.js` to implement the refined logic.
-- Update `style.css` to match the "Serious Calculator" guidelines.
-- Update `index.html` to improve the calculator structure (add buttons for 'A', 'B', '+', '-', 'Clear', 'Calculate').
+## 3. Technical Requirements
 
-## Acceptance Criteria
-- `A + A` results in `B`.
-- `B + B` results in `BB`.
-- `BB + BB` results in `BBB`.
-- The UI looks like a professional financial tool from the 90s.
-- All tests pass with >80% coverage.
+### 3.1 Architectural Constraints
+- **Separation of Concerns**: Logic (`app.js`) must be completely decoupled from the DOM. All mathematical functions must be pure and exportable for Node.js-based unit testing.
+- **Integer Safety**: Support calculations up to `Number.MAX_SAFE_INTEGER`. Implement checks to prevent precision loss.
+
+### 3.2 Parser Specification
+- **Robustness**: The parser must handle arbitrary whitespace and be case-insensitive.
+- **Validation**: Implement a strict whitelist. Any character outside `[A, B, +, \s]` must trigger a specific `ValidationError`.
+- **Error States**: Errors must return a structured object: `{ ok: false, error: string, code: string }`.
+
+### 3.3 UI/UX Design System ("Serious Business")
+- **Visual Identity**: High-contrast, monochromatic palette with industrial blue accents (`#1e293b`, `#3b82f6`).
+- **Typography**: Monospaced fonts for output (`JetBrains Mono`, `Courier New`) to emphasize the "data processing" nature.
+- **Interaction Model**:
+    - Physical keyboard support (Map Enter to `=`, Backspace to DELETE).
+    - Haptic/Visual feedback on virtual button clicks.
+- **Accessibility**: ARIA labels for the keypad and results display. Ensure 4:1 contrast ratios.
+
+## 4. Quality Assurance Strategy
+
+### 4.1 Automated Testing (TDD)
+- **Unit Tests**:
+    - `tokenToValue`: Verify correct conversion for tokens up to $B^{20}$.
+    - `valueToTokens`: Verify canonical sorting and power-of-2 decomposition.
+    - `compute`: Test complex expressions like `A + B + BB + BBB`.
+- **Edge Cases**: Zero values, very large tokens, malformed strings (e.g., `+ A`, `A ++ B`).
+
+### 4.2 Manual Verification
+- **Cross-Browser**: Chrome, Firefox, Safari (iOS).
+- **Responsiveness**: Verify keypad usability on 320px width devices.
+
+## 5. Acceptance Criteria
+- [ ] Logic: `compute("A + A")` returns `B`.
+- [ ] Logic: `compute("B + B")` returns `BB`.
+- [ ] Parser: Inputting "C" returns a clear error message.
+- [ ] UI: Calculator matches the "Serious Business" aesthetic defined in Section 3.3.
+- [ ] UI: "Stochastic" button generates valid expressions that evaluate correctly.
+- [ ] UX: Backspace correctly handles multi-character tokens and operator spacing.
