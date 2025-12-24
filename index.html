@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Funny Alphabet Calculator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>Funny Alphabet Calculator</h1>
+    <p class="subtitle">It doesn?t do numbers. It makes letters grow.</p>
+
+    <section class="card">
+      <h2>Try an expression</h2>
+      <label for="expr">Type something like <code>BB + BB</code>:</label>
+      <div class="row">
+        <input id="expr" type="text" inputmode="text" autocomplete="off" spellcheck="false" value="A + A" />
+        <button id="calcBtn" type="button">Calculate</button>
+      </div>
+      <div class="result">
+        <div class="resultLabel">Result</div>
+        <output id="result" class="resultValue">B</output>
+      </div>
+      <p id="error" class="error" hidden></p>
+      <details class="rules">
+        <summary>Rules (the silly part)</summary>
+        <ul>
+          <li><code>A + A = B</code></li>
+          <li><code>B + B = BB</code></li>
+          <li><code>BB + BB = BBB</code></li>
+          <li>In general: if both sides are the exact same string of <code>B</code>s, the answer is one more <code>B</code>.</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="card">
+      <h2>Generate the chain</h2>
+      <p class="hint">Start at <code>A</code> and keep ?adding it to itself?.</p>
+      <div class="row">
+        <label for="steps">How many lines?</label>
+        <input id="steps" type="number" min="1" max="50" value="10" />
+        <button id="chainBtn" type="button">Generate</button>
+      </div>
+      <pre id="chain" class="chain" aria-label="Chain output"></pre>
+    </section>
+
+    <footer class="footer">
+      <p>Made for an end-to-end Conductor + Codex test.</p>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
