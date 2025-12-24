@@ -1,29 +1,61 @@
-# Track Plan: Refine Alphabet Logic & UI Polish
+# Track Plan: Refine Alphabet Logic & UI Polish (Refined)
 
-## Phase 1: Logic Engine & Mathematical Foundation
-Establish a bulletproof arithmetic core using TDD principles.
+## Overview
+This track delivers the core value proposition of the Alphabetical Arithmetic Engine. It moves beyond a simple script to a robust, tested, and aesthetically distinct application.
 
-- [x] **Task 1.1: Test Suite Architecture**: Initialize `logic.test.js` with `require`-based environment for pure function testing.
-- [x] **Task 1.2: Normalization Logic**: Implement the greedy power-of-2 decomposition algorithm (`valueToTokens`) and its inverse.
-- [x] **Task 1.3: Recursive/Iterative Parser**: Build a robust expression parser that handles whitespace and operator precedence (currently just addition).
-- [x] **Task 1.4: Validation & Error Handling**: Implement structured error reporting for invalid tokens and malformed syntax.
+## Phase 1: Core Mathematical Engine (TDD)
+**Goal**: Establish an immutable, high-performance logic core.
 
-## Phase 2: "Serious Business" UI Implementation
-Build the industrial-grade interface.
+- [x] **Task 1.1: Test Harness Setup**
+  - **Action**: Configure `logic.test.js` to support both Node.js environment and browser-compatible exports.
+  - **Success Criteria**: `npm test` runs and fails initially (Red).
+- [x] **Task 1.2: Normalization Logic Implementation**
+  - **Action**: Implement `valueToTokens` using bitwise operations or greedy log-based decomposition.
+  - **Success Criteria**: Passes tests for powers of 2 up to $2^{52}$.
+- [x] **Task 1.3: Robust Parser Development**
+  - **Action**: Implement a non-recursive descent parser with strict token validation.
+  - **Success Criteria**: Correctly handles "A B + BBB", case-insensitivity, and extra whitespace.
+- [x] **Task 1.4: Error Handling & Result Pattern**
+  - **Action**: Standardize the return type of `compute()` to include error codes and messages.
 
-- [x] **Task 2.1: Atomic CSS & Theming**: Define a CSS variable system for the "Serious Business" palette and implement a responsive Grid layout.
-- [x] **Task 2.2: Semantic Display & Keypad**: Construct the HTML5 structure using appropriate ARIA roles and semantic tags (`<main>`, `<section>`, `<output>`).
-- [x] **Task 2.3: Event Orchestration**: Implement a central event delegation pattern for the virtual keypad and map physical key events.
+## Phase 2: "Serious Business" UI System
+**Goal**: Implement a high-fidelity, industrial design system.
 
-## Phase 3: Secondary Features & UX Polish
-Enhance the system with generative tools and refined interactions.
+- [x] **Task 2.1: Design Token System**
+  - **Action**: Define CSS variables for the palette, spacing, and typography in `style.css`.
+- [x] **Task 2.2: Responsive Grid Layout**
+  - **Action**: Build the `<main>` container with a mobile-first CSS Grid layout for the display and keypad.
+- [x] **Task 2.3: Semantic Keypad & Event Delegation**
+  - **Action**: Use a single event listener on the keypad container to handle all button interactions.
+  - **Success Criteria**: No individual event listeners on buttons.
 
-- [x] **Task 3.1: Sequence Generator**: Implement the "Chain Generation" logic to demonstrate the system's geometric progression properties.
-- [x] **Task 3.2: Stochastic Input**: Create a "Surprise" generator that produces valid random expressions for stress-testing.
-- [x] **Task 3.3: Interactive Feedback**: Add button active states, transition animations, and accessible error banners.
+## Phase 3: Advanced UX & Interaction
+**Goal**: Polish interactions and add generative features.
 
-## Phase 4: Verification & Readiness
-Final quality gates before track closure.
+- [x] **Task 3.1: Physical Keyboard Integration**
+  - **Action**: Map `keydown` events to calculator actions (Enter -> Compute, Backspace -> Delete).
+- [x] **Task 3.2: Generative "Surprise" Engine**
+  - **Action**: Implement logic to generate valid, increasingly complex random expressions.
+- [x] **Task 3.3: Animated State Transitions**
+  - **Action**: Add subtle CSS transitions for button states and error banner visibility.
 
-- [x] **Task 4.1: Final Integration Test**: Execute a comprehensive test pass across all logical axioms and UI components.
-- [x] **Task 4.2: Documentation & Checkpoint**: Synchronize project state and verify all Acceptance Criteria in `spec.md`.
+## Phase 4: Verification & Release
+**Goal**: Final QA and documentation.
+
+- [x] **Task 4.1: Cross-Platform Audit**
+  - **Action**: Test on mobile (Chrome/Safari) and desktop.
+- [x] **Task 4.2: Track Closure**
+  - **Action**: Final review of `spec.md` and synchronization of project state.
+
+## Risk Assessment & Mitigation
+| Risk | Severity | Mitigation |
+| :--- | :--- | :--- |
+| Precision Loss | Medium | Use `BigInt` if values exceed $2^{53}-1$ (Deferred for this track). |
+| CSS Incompatibility | Low | Use standard CSS Grid; provide flexbox fallbacks if necessary. |
+| Logic Errors | High | 100% unit test coverage for `valueToTokens` and `tokenToValue`. |
+
+## Definition of Done (DoD)
+1. All unit tests in `logic.test.js` pass.
+2. UI matches "Serious Business" design specification.
+3. No console errors during standard operation.
+4. Accessibility audit passes (no critical violations).
