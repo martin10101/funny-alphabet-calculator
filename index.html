@@ -8,53 +8,53 @@
 </head>
 <body>
   <main class="container">
-    <h1>Funny Alphabet Calculator</h1>
-    <p class="subtitle">It doesn't do numbers. It makes letters grow.</p>
+    <h1>Alphabet Computational Unit</h1>
+    <p class="subtitle">Official Scientific Alphabet Arithmetic Interface v1.0.4</p>
 
     <section class="card">
-      <h2>Try an expression</h2>
-      <label for="expr">Type something like <code>BB + BB</code>:</label>
+      <h2>Arithmetic Input Terminal</h2>
+      <label for="expr">Execute Alphabet Expression:</label>
       <div class="row">
         <input id="expr" type="text" inputmode="text" autocomplete="off" spellcheck="false" value="A + A" />
-        <button id="calcBtn" type="button">Calculate</button>
+        <button id="calcBtn" type="button">Execute</button>
       </div>
-      <div class="keypad" aria-label="Calculator keypad">
+      <div class="keypad" aria-label="Tactile Keypad">
         <button class="key" type="button" data-key="A">A</button>
         <button class="key" type="button" data-key="B">B</button>
         <button class="key" type="button" data-key="+">+</button>
-        <button class="key keyWide" type="button" data-key="=">=</button>
-        <button class="key" type="button" data-key="bksp">⌫</button>
-        <button class="key" type="button" data-key="clear">Clear</button>
+        <button class="key keyWide" type="button" data-key="=">Enter</button>
+        <button class="key" type="button" data-key="bksp">Del</button>
+        <button class="key" type="button" data-key="clear">AC</button>
       </div>
       <div class="result">
-        <div class="resultLabel">Result</div>
+        <div class="resultLabel">System Output Display</div>
         <output id="result" class="resultValue">B</output>
       </div>
       <p id="error" class="error" hidden></p>
       <details class="rules">
-        <summary>Rules (the silly part)</summary>
+        <summary>Logical Axioms (Confidential)</summary>
         <ul>
-          <li><code>A + A = B</code></li>
-          <li><code>B + B = BB</code></li>
-          <li><code>BB + BB = BBB</code></li>
-          <li>In general: if both sides are the exact same string of <code>B</code>s, the answer is one more <code>B</code>.</li>
+          <li><code>A + A = B</code> (Primary Consolidation)</li>
+          <li><code>B + B = BB</code> (Secondary Tier Expansion)</li>
+          <li><code>BB + BB = BBB</code> (Tertiary Logic Progression)</li>
+          <li>Axiom: For any string of <code>B</code>s, if identical, increment string length by 1.</li>
         </ul>
       </details>
     </section>
 
     <section class="card">
-      <h2>Generate the chain</h2>
-      <p class="hint">Start at <code>A</code> and keep \"adding it to itself\".</p>
+      <h2>Recursive Chain Generation</h2>
+      <p class="hint">Initialize at <code>A</code> and perform iterative self-consolidation.</p>
       <div class="row">
-        <label for="steps">How many lines?</label>
+        <label for="steps">Iteration Count:</label>
         <input id="steps" type="number" min="1" max="50" value="10" />
-        <button id="chainBtn" type="button">Generate</button>
+        <button id="chainBtn" type="button">Initiate</button>
       </div>
-      <pre id="chain" class="chain" aria-label="Chain output"></pre>
+      <pre id="chain" class="chain" aria-label="Chain stream output"></pre>
     </section>
 
     <footer class="footer">
-      <p>Made for an end-to-end Conductor + Codex test.</p>
+      <p>Alphabet Computational Unit is a product of Alphabetical Systems Corp. All rights reserved.</p>
     </footer>
   </main>
 
