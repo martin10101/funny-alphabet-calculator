@@ -18,3 +18,8 @@ button:hover{filter:brightness(1.08)}
 .hint{margin:0;color:#b6c3e6}
 .footer{margin-top:18px;color:#91a2cf;font-size:13px}
 code{background:#0b1326;border:1px solid #2a3d73;border-radius:8px;padding:1px 6px}
+.keypad{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}
+.key{padding:10px 12px;border-radius:10px;border:1px solid #3655a6;background:#152b76;color:#fff;font-weight:700;cursor:pointer}
+.key:hover{filter:brightness(1.1)}
+.key:active{transform:translateY(1px)}
+.keyWide{grid-column:span 2}

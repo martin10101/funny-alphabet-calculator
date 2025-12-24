@@ -64,8 +64,7 @@ function generateChain(lines) {
     parts.push(`${term} + ${term} = ${next}`);
     term = next;
   }
-  return parts.join("
-");
+  return parts.join("\n");
 }
 
 function main() {
@@ -74,15 +73,58 @@ function main() {
   const chainBtn = document.getElementById("chainBtn");
   const steps = document.getElementById("steps");
   const chain = document.getElementById("chain");
+  const keypad = document.querySelector(".keypad");
 
   function doCalc() {
     renderResult(compute(expr.value));
+  }
+
+  function backspace() {
+    expr.value = expr.value.slice(0, -1);
+  }
+
+  function insertKey(key) {
+    if (key === "clear") {
+      expr.value = "";
+      renderResult({ ok: false, error: "Type something like: BB + BB" });
+      return;
+    }
+    if (key === "bksp") {
+      backspace();
+      return;
+    }
+    if (key === "=") {
+      doCalc();
+      return;
+    }
+    if (key === "+") {
+      const v = expr.value.trimEnd();
+      if (!v) {
+        expr.value = "A + ";
+        return;
+      }
+      if (/\+\s*$/.test(v)) return;
+      expr.value = v + " + ";
+      return;
+    }
+    if (key === "A" || key === "B") {
+      expr.value += key;
+      return;
+    }
   }
 
   calcBtn.addEventListener("click", doCalc);
   expr.addEventListener("keydown", (e) => {
     if (e.key === "Enter") doCalc();
   });
+
+  if (keypad) {
+    keypad.addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-key]");
+      if (!btn) return;
+      insertKey(btn.getAttribute("data-key"));
+    });
+  }
 
   chainBtn.addEventListener("click", () => {
     chain.textContent = generateChain(steps.value);
