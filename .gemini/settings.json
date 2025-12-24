@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "conductor-bridge": {
+      "command": "cmd.exe",
+      "args": [
+        "/c",
+        "C:\\conductor-bridge-mvp\\scripts\\start-mcp-stdio.cmd"
+      ]
+    }
+  }
+}
