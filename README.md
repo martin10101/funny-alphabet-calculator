@@ -11,7 +11,11 @@ The system operates on the following logical axioms:
 - **Tiered Expansion:** For any string of `B`s, the sum of two identical strings increments the total count of `B`s by 1.
   - `B + B = BB`
   - `BB + BB = BBB`
-  - `BBB + BBB = BBBB`
+- **Inverse Operations (Subtraction):** The system supports the reversal of consolidation.
+  - `B - A = A`
+  - `BB - B = B`
+  - `BBB - BB = BB`
+- **Composite Logic:** Combinations of `A`s and `B`s are handled via binary decomposition (e.g., `B A`).
 
 ## Usage Instructions
 

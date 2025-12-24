@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+/* Professional Office Gray Stylesheet */
 
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
   margin:0;
-  font-family: 'Roboto Mono', monospace;
+  font-family: 'Courier New', Courier, monospace;
   line-height:1.4;
   background:#b0b0b0; /* Office Gray base */
   color:#333;
@@ -65,7 +65,7 @@ input[type=text], input[type=number]{
   background:#9dbf9e; /* LCD Green */
   color:#1a2b1b;
   font-size:18px;
-  font-family: 'Roboto Mono', monospace;
+  font-family: 'Courier New', Courier, monospace;
   box-shadow: inset 2px 2px 5px rgba(0,0,0,0.2);
 }
 
@@ -76,7 +76,7 @@ button{
   color:#333;
   font-weight:700;
   cursor:pointer;
-  font-family: 'Roboto Mono', monospace;
+  font-family: 'Courier New', Courier, monospace;
   box-shadow: 3px 3px 0px #333;
   transition: all 0.1s;
   text-transform: uppercase;

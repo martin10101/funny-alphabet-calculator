@@ -3,13 +3,13 @@
  */
 
 function tokenToValue(token) {
-  const t = token.trim().toUpperCase();
-  if (!t) return 0;
-  if (t === 'A') return 1;
-  if (/^B+$/.test(t)) {
-    return Math.pow(2, t.length);
-  }
-  return 0;
+  if (!token) return 0;
+  return token.trim().toUpperCase().split(/\s+/).reduce((acc, t) => {
+    if (!t) return acc;
+    if (t === 'A') return acc + 1;
+    if (/^B+$/.test(t)) return acc + Math.pow(2, t.length);
+    return acc;
+  }, 0);
 }
 
 function valueToTokens(value) {
@@ -18,7 +18,7 @@ function valueToTokens(value) {
   
   // Find if it's a power of 2
   const lg = Math.log2(value);
-  if (Number.isInteger(lg)) {
+  if (Number.isInteger(lg) && lg > 0) {
     return ['B'.repeat(lg)];
   }
 
@@ -48,34 +48,52 @@ function parseExpression(expr) {
     return { ok: false, error: "CRITICAL: No input detected in buffer. Specify operation (e.g., BB + BB)." };
   }
   
-  // Split by '+' and filter empty
-  const tokens = raw.split('+').map(t => t.trim()).filter(t => t.length > 0);
+  // Split into tokens and operators
+  const parts = raw.split(/(\+|-)/).map(p => p.trim()).filter(p => p.length > 0);
   
-  if (tokens.length < 2) {
+  if (parts.length < 3) {
     return { ok: false, error: "LOGIC ERROR: Insufficient operands for consolidation. Two or more components required." };
   }
 
-  // Validate tokens
-  for (const t of tokens) {
-    if (t !== 'A' && !/^B+$/i.test(t)) {
-      return { ok: false, error: `SYSTEM ALERT: Unauthorized character sequence detected: "${t}". Use valid components only (A, B+).` };
+  // Validate values (parts at even indices: 0, 2, 4...)
+  for (let i = 0; i < parts.length; i += 2) {
+    const valStr = parts[i];
+    const tokens = valStr.split(/\s+/);
+    for (const t of tokens) {
+      if (t !== 'A' && !/^B+$/i.test(t)) {
+        return { ok: false, error: `SYSTEM ALERT: Unauthorized character sequence detected: "${t}". Use valid components only (A, B+).` };
+      }
     }
   }
 
-  return { ok: true, tokens };
+  return { ok: true, parts };
 }
 
 function compute(expr) {
   const parsed = parseExpression(expr);
   if (!parsed.ok) return parsed;
   
-  const sum = parsed.tokens.reduce((acc, t) => acc + tokenToValue(t), 0);
-  const resultTokens = valueToTokens(sum);
-  
-  if (resultTokens.length === 0) {
+  const { parts } = parsed;
+  let totalValue = tokenToValue(parts[0]);
+
+  for (let i = 1; i < parts.length; i += 2) {
+    const op = parts[i];
+    const operand = parts[i+1];
+    if (!operand) break;
+    
+    const val = tokenToValue(operand);
+    if (op === '+') {
+      totalValue += val;
+    } else if (op === '-') {
+      totalValue -= val;
+    }
+  }
+
+  if (totalValue <= 0) {
     return { ok: false, error: "ALGORITHM FAILURE: Calculation resulted in a null or negative logical state." };
   }
   
+  const resultTokens = valueToTokens(totalValue);
   return { ok: true, result: resultTokens.join(' ') };
 }
 
@@ -142,17 +160,19 @@ function main() {
       doCalc();
       return;
     }
-    if (key === "+") {
+    if (key === "+" || key === "-") {
       const v = exprInput.value.trimEnd();
       if (!v) return;
-      if (v.endsWith('+')) return;
-      exprInput.value = v + " + ";
+      if (v.endsWith('+') || v.endsWith('-')) return;
+      exprInput.value = v + " " + key + " ";
       return;
     }
     if (key === "A" || key === "B") {
-      // If last char was space (from +), just append.
-      // Otherwise if it's a different letter, maybe add space? 
-      // No, let's keep it simple.
+      const v = exprInput.value;
+      // If last char is a letter, maybe we want a space if it's a different letter? 
+      // The user manual says B A = 3. 
+      // For now, let's just append. User can add spaces if they want, 
+      // but usually calculators append to the current operand.
       exprInput.value += key;
       return;
     }

@@ -7,7 +7,7 @@ This phase focuses on defining and verifying the "funny" arithmetic logic before
     - Write tests for `A+A=B`, `B+B=BB`, `BB+BB=BBB`, and subtraction edge cases.
 - [x] Task: Implement Refined Alphabet Logic (776ddbe)
     - Update the calculation engine in `app.js` to pass the new test cases.
-- [~] Task: Conductor - User Manual Verification 'Logic Foundation' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Logic Foundation' (Protocol in workflow.md)
 
 ## Phase 2: UI Overhaul ("Serious Calculator")
 This phase applies the visual guidelines to the HTML and CSS.
@@ -18,7 +18,7 @@ This phase applies the visual guidelines to the HTML and CSS.
     - Implement the gray/green color scheme, monospaced fonts, and tactile button effects in `style.css`.
 - [x] Task: Connect UI Buttons to Logic (776ddbe)
     - Ensure clicking buttons updates the input field and triggers calculations correctly.
-- [~] Task: Conductor - User Manual Verification 'UI Overhaul' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'UI Overhaul' (Protocol in workflow.md)
 
 ## Phase 3: Final Polish & Edge Cases
 Handling errors and final verification.
@@ -27,4 +27,4 @@ Handling errors and final verification.
     - Add logic to display absurdly serious error messages for invalid inputs.
 - [x] Task: Final Verification & Documentation (f3eebbe)
     - Ensure all tests pass, coverage is >80%, and the README is updated if necessary.
-- [ ] Task: Conductor - User Manual Verification 'Final Polish' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Final Polish' (Protocol in workflow.md)
