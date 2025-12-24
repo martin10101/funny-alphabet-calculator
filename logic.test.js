@@ -10,20 +10,11 @@ function test() {
     { input: ['A', 'A', 'B'], op: '+', expected: 'BB' },
     { input: ['BB', 'B', 'A'], op: '+', expected: 'BB B A' },
     { input: ['BBB', 'BBB'], op: '+', expected: 'BBBB' },
-    { input: ['B', 'A'], op: '-', expected: 'A' },
-    { input: ['BB', 'B'], op: '-', expected: 'B' },
-    { input: ['BBB', 'BB'], op: '-', expected: 'BB' },
-    { input: ['B A', 'A'], op: '-', expected: 'B' },
   ];
 
   let passed = 0;
   arithmeticCases.forEach(({ input, op, expected }) => {
-    let resultVal;
-    if (op === '+') {
-      resultVal = input.reduce((acc, t) => acc + tokenToValue(t), 0);
-    } else {
-      resultVal = tokenToValue(input[0]) - tokenToValue(input[1]);
-    }
+    let resultVal = input.reduce((acc, t) => acc + tokenToValue(t), 0);
     const result = valueToTokens(resultVal).join(' ');
     if (result === expected) {
       console.log(`PASS: ${input.join(' ' + op + ' ')} = ${result}`);
@@ -39,13 +30,9 @@ function test() {
     { expr: "B + B", expected: "BB", ok: true },
     { expr: "BB + BB", expected: "BBB", ok: true },
     { expr: "A + B", expected: "B A", ok: true },
-    { expr: "B - A", expected: "A", ok: true },
-    { expr: "BB - B", expected: "B", ok: true },
-    { expr: "B A - A", expected: "B", ok: true },
-    { expr: "", ok: false, error: "CRITICAL: No input detected" },
-    { expr: "A", ok: false, error: "LOGIC ERROR: Insufficient operands" },
-    { expr: "A + C", ok: false, error: "SYSTEM ALERT: Unauthorized character" },
-    { expr: "A - B", ok: false, error: "ALGORITHM FAILURE" },
+    { expr: "", ok: false, error: "Error: Input buffer is empty." },
+    { expr: "A", ok: false, error: "Error: Incomplete expression." },
+    { expr: "A + C", ok: false, error: "Error: Invalid token detected" },
   ];
 
   computeCases.forEach(({ expr, expected, ok, error }) => {

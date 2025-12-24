@@ -1,33 +1,30 @@
-# Alphabet Computational Unit (ACU)
+# Alphabetical Arithmetic Engine (AAE)
 
 ## Project Overview
 
-The Alphabet Computational Unit is a high-precision scientific instrument designed for the consolidation and expansion of alphabetical components. Utilizing proprietary Tier-1 consolidation logic, it allows for the arithmetic manipulation of characters `A` and `B` without the need for traditional numerical systems.
+The Alphabetical Arithmetic Engine (AAE) is a high-precision computational instrument engineered for the systematic consolidation and normalization of alphabetical data. Utilizing proprietary binary-weighted tokenization, the AAE provides a mathematically rigorous framework for arithmetic operations using 'A' and 'B' primitives, eliminating the variance inherent in traditional numerical systems.
 
 ## Operational Logic (Axioms)
 
 The system operates on the following logical axioms:
-- **Primary Consolidation:** `A + A` results in `B`.
-- **Tiered Expansion:** For any string of `B`s, the sum of two identical strings increments the total count of `B`s by 1.
-  - `B + B = BB`
-  - `BB + BB = BBB`
-- **Inverse Operations (Subtraction):** The system supports the reversal of consolidation.
-  - `B - A = A`
-  - `BB - B = B`
-  - `BBB - BB = BB`
-- **Composite Logic:** Combinations of `A`s and `B`s are handled via binary decomposition (e.g., `B A`).
+- **Unit Consolidation:** `A + A` results in `B`.
+- **Power-of-2 Scaling:** `B` tokens represent $2^n$ where $n$ is the token length.
+  - `B + B = BB` ($2^1 + 2^1 = 2^2$)
+  - `BB + BB = BBB` ($2^2 + 2^2 = 2^3$)
+- **Canonical Normalization:** All results are decomposed into the largest possible tokens in descending order of power.
 
 ## Usage Instructions
 
-1.  **Direct Entry:** Utilize the Tactile Keypad to input alphabetical components.
-2.  **Execution:** Click "Execute" or press "Enter" to perform the logical consolidation.
-3.  **Recursive Generation:** Use the "Recursive Chain Generation" module to observe multi-stage logical iterations starting from base component `A`.
+1.  **Terminal Entry:** Utilize the Input Expression Buffer to queue alphabetical components.
+2.  **Evaluation:** Trigger the `EVALUATE` command or the `EXECUTE` key to process the consolidation.
+3.  **Audit Ledger:** Review the historical record of computations in the Audit Log Ledger for data integrity verification.
+4.  **Progression Analysis:** Use the Progression Generator to observe geometric series sequences starting from unit component `A`.
 
 ## System Requirements
 
-- Compatible with any standard HTML5-compliant neural interface (web browser).
-- No external dependencies.
+- Compatible with any industry-standard HTML5-compliant neural interface.
+- Zero external dependencies.
 
-## Legal
+## Legal & Compliance
 
-Alphabet Computational Unit is a product of Alphabetical Systems Corp. Logic is provided as-is. Logical paradoxes resulting from excessive consolidation are the responsibility of the operator.
+The Alphabetical Arithmetic Engine is a product of ALPHABETICAL ARITHMETIC CORP. Logic is provided as-is. Logical paradoxes resulting from excessive consolidation or buffer overflows are the sole responsibility of the operator.

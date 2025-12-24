@@ -3,59 +3,81 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Funny Alphabet Calculator</title>
+  <title>Alphabetical Arithmetic Engine</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main class="container">
-    <h1>Alphabet Computational Unit</h1>
-    <p class="subtitle">Official Scientific Alphabet Arithmetic Interface v1.0.4</p>
+    <h1>AAE-1 Arithmetic Engine</h1>
+    <p class="subtitle">Standardized Alphabetical Computation System</p>
 
     <section class="card">
-      <h2>Arithmetic Input Terminal</h2>
-      <label for="expr">Execute Alphabet Expression:</label>
+      <h2>Processing Unit</h2>
+      <label for="expr">Input Expression Buffer:</label>
       <div class="row">
         <input id="expr" type="text" inputmode="text" autocomplete="off" spellcheck="false" value="A + A" />
-        <button id="calcBtn" type="button">Execute</button>
+        <button id="calcBtn" type="button">EVALUATE</button>
       </div>
-      <div class="keypad" aria-label="Tactile Keypad">
+      <div class="keypad" aria-label="Input Control Panel">
         <button class="key" type="button" data-key="A">A</button>
         <button class="key" type="button" data-key="B">B</button>
         <button class="key" type="button" data-key="+">+</button>
-        <button class="key" type="button" data-key="-">-</button>
-        <button class="key keyWide" type="button" data-key="=">Enter</button>
-        <button class="key" type="button" data-key="bksp">Del</button>
-        <button class="key" type="button" data-key="clear">AC</button>
+        <button class="key" type="button" data-key="bksp">DELETE</button>
+        <button class="key" type="button" data-key="clear">RESET</button>
+        <button class="key" type="button" data-key="surprise">STOCHASTIC</button>
+        <button class="key keyWide" type="button" data-key="=">EXECUTE</button>
       </div>
       <div class="result">
-        <div class="resultLabel">System Output Display</div>
+        <div class="resultLabel">Computed Output Signal:</div>
         <output id="result" class="resultValue">B</output>
       </div>
       <p id="error" class="error" hidden></p>
       <details class="rules">
-        <summary>Logical Axioms (Confidential)</summary>
+        <summary>Logical Axioms</summary>
         <ul>
-          <li><code>A + A = B</code> (Primary Consolidation)</li>
-          <li><code>B + B = BB</code> (Secondary Tier Expansion)</li>
-          <li><code>BB + BB = BBB</code> (Tertiary Logic Progression)</li>
-          <li>Axiom: For any string of <code>B</code>s, if identical, increment string length by 1.</li>
+          <li>Axiom 1: <code>A + A = B</code></li>
+          <li>Axiom 2: <code>B + B = BB</code></li>
+          <li>Axiom 3: <code>BB + BB = BBB</code></li>
+          <li>Note: System operates on binary-weighted tokenization.</li>
         </ul>
       </details>
     </section>
 
     <section class="card">
-      <h2>Recursive Chain Generation</h2>
-      <p class="hint">Initialize at <code>A</code> and perform iterative self-consolidation.</p>
+      <h2>Progression Generator</h2>
+      <p class="hint">Generate geometric series sequence.</p>
       <div class="row">
-        <label for="steps">Iteration Count:</label>
+        <label for="steps">Sequence Cycles:</label>
         <input id="steps" type="number" min="1" max="50" value="10" />
-        <button id="chainBtn" type="button">Initiate</button>
+        <button id="chainBtn" type="button">GENERATE</button>
       </div>
-      <pre id="chain" class="chain" aria-label="Chain stream output"></pre>
+      <pre id="chain" class="chain" aria-label="Sequence output buffer"></pre>
+    </section>
+
+    <section class="card">
+      <h2>Audit Log Ledger</h2>
+      <div id="auditLogContainer" class="audit-log">
+        <table class="audit-table">
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Expression</th>
+              <th>Output Signal</th>
+            </tr>
+          </thead>
+          <tbody id="auditEntries">
+            <!-- Entries injected via system controller -->
+          </tbody>
+        </table>
+      </div>
+      <div class="row" style="margin-top: 16px; justify-content: flex-end;">
+        <button id="printBtn" type="button" style="background: var(--secondary-color); border-color: var(--secondary-color);">HARD COPY</button>
+        <button id="clearLogBtn" type="button" style="background: #64748b; border-color: #64748b;">RESET BUFFER</button>
+      </div>
     </section>
 
     <footer class="footer">
-      <p>Alphabet Computational Unit is a product of Alphabetical Systems Corp. All rights reserved.</p>
+      <p>&copy; 2025 ALPHABETICAL ARITHMETIC CORP. | ALL LOGIC RESERVED</p>
     </footer>
   </main>
 

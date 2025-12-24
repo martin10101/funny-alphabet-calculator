@@ -16,13 +16,11 @@ function valueToTokens(value) {
   if (value <= 0) return [];
   if (value === 1) return ['A'];
   
-  // Find if it's a power of 2
   const lg = Math.log2(value);
   if (Number.isInteger(lg) && lg > 0) {
     return ['B'.repeat(lg)];
   }
 
-  // Binary decomposition (highest to lowest)
   const result = [];
   let remaining = value;
   let power = Math.floor(Math.log2(remaining));
@@ -45,23 +43,22 @@ function valueToTokens(value) {
 function parseExpression(expr) {
   const raw = (expr || "").trim();
   if (!raw) {
-    return { ok: false, error: "CRITICAL: No input detected in buffer. Specify operation (e.g., BB + BB)." };
+    return { ok: false, error: "Error: Input buffer is empty. Please provide an expression." };
   }
   
-  // Split into tokens and operators
-  const parts = raw.split(/(\+|-)/).map(p => p.trim()).filter(p => p.length > 0);
+  // Only handle '+' now
+  const parts = raw.split(/(\+)/).map(p => p.trim()).filter(p => p.length > 0);
   
   if (parts.length < 3) {
-    return { ok: false, error: "LOGIC ERROR: Insufficient operands for consolidation. Two or more components required." };
+    return { ok: false, error: "Error: Incomplete expression. Operator and operand required." };
   }
 
-  // Validate values (parts at even indices: 0, 2, 4...)
   for (let i = 0; i < parts.length; i += 2) {
     const valStr = parts[i];
     const tokens = valStr.split(/\s+/);
     for (const t of tokens) {
       if (t !== 'A' && !/^B+$/i.test(t)) {
-        return { ok: false, error: `SYSTEM ALERT: Unauthorized character sequence detected: "${t}". Use valid components only (A, B+).` };
+        return { ok: false, error: `Error: Invalid token detected: \"${t}\". Only 'A' and 'B' variants are permitted.` };
       }
     }
   }
@@ -84,13 +81,11 @@ function compute(expr) {
     const val = tokenToValue(operand);
     if (op === '+') {
       totalValue += val;
-    } else if (op === '-') {
-      totalValue -= val;
     }
   }
 
   if (totalValue <= 0) {
-    return { ok: false, error: "ALGORITHM FAILURE: Calculation resulted in a null or negative logical state." };
+    return { ok: false, error: "Error: Computation resulted in a null or negative value." };
   }
   
   const resultTokens = valueToTokens(totalValue);
@@ -108,15 +103,15 @@ function renderResult(result) {
     return;
   }
 
-  out.textContent = "?";
+  out.textContent = "SIGNAL LOST";
   err.hidden = false;
-  err.textContent = result.error || "Something went wrong.";
+  err.textContent = result.error || "Error: Unknown system failure.";
 }
 
 function generateChain(lines) {
   const n = Math.max(1, Math.min(50, Number(lines) || 10));
   const parts = [];
-  let term = "A"; // Value is 1
+  let term = "A"; 
   
   for (let i = 0; i < n; i++) {
     const val = tokenToValue(term);
@@ -130,6 +125,38 @@ function generateChain(lines) {
   return parts.join("\n");
 }
 
+const LogManager = {
+  STORAGE_KEY: 'AAE_AUDIT_LOG',
+  
+  getLog() {
+    try {
+      const data = localStorage.getItem(this.STORAGE_KEY);
+      return data ? JSON.parse(data) : [];
+    } catch (e) {
+      console.error("Critical: Failed to retrieve audit log from storage.", e);
+      return [];
+    }
+  },
+  
+  addEntry(expression, result) {
+    const log = this.getLog();
+    const entry = {
+      id: Date.now(),
+      timestamp: new Date().toISOString(),
+      expression,
+      result
+    };
+    log.unshift(entry); 
+    const trimmedLog = log.slice(0, 100);
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(trimmedLog));
+    return entry;
+  },
+  
+  clearLog() {
+    localStorage.removeItem(this.STORAGE_KEY);
+  }
+};
+
 function main() {
   const exprInput = document.getElementById("expr");
   const calcBtn = document.getElementById("calcBtn");
@@ -137,19 +164,43 @@ function main() {
   const stepsInput = document.getElementById("steps");
   const chainOutput = document.getElementById("chain");
   const keypad = document.querySelector(".keypad");
+  const auditEntries = document.getElementById("auditEntries");
+  const clearLogBtn = document.getElementById("clearLogBtn");
+  const printBtn = document.getElementById("printBtn");
+
+  function renderAuditLog() {
+    const log = LogManager.getLog();
+    auditEntries.innerHTML = log.map(entry => `
+      <tr>
+        <td>${entry.timestamp.split('T')[1].split('.')[0]}</td>
+        <td>${entry.expression}</td>
+        <td>${entry.result}</td>
+      </tr>
+    `).join('');
+  }
 
   function doCalc() {
-    renderResult(compute(exprInput.value));
+    const res = compute(exprInput.value);
+    renderResult(res);
+    if (res.ok) {
+      LogManager.addEntry(exprInput.value, res.result);
+      renderAuditLog();
+    }
   }
 
   function backspace() {
-    exprInput.value = exprInput.value.trimEnd().slice(0, -1);
+    let v = exprInput.value.trimEnd();
+    if (v.endsWith('+')) {
+      exprInput.value = v.slice(0, -1).trimEnd();
+    } else {
+      exprInput.value = v.slice(0, -1);
+    }
   }
 
   function insertKey(key) {
     if (key === "clear") {
       exprInput.value = "";
-      renderResult({ ok: false, error: "BUFFER PURGED: Please initialize new computation string." });
+      renderResult({ ok: false, error: "System Reset: Input buffer cleared." });
       return;
     }
     if (key === "bksp") {
@@ -160,20 +211,28 @@ function main() {
       doCalc();
       return;
     }
-    if (key === "+" || key === "-") {
+    if (key === "surprise") {
+      const options = ["A + A", "B + B", "BB + BB", "A + B + BB", "B + A + B", "AAAAA"];
+      exprInput.value = options[Math.floor(Math.random() * options.length)];
+      doCalc();
+      return;
+    }
+    if (key === "+") {
       const v = exprInput.value.trimEnd();
       if (!v) return;
-      if (v.endsWith('+') || v.endsWith('-')) return;
-      exprInput.value = v + " " + key + " ";
+      if (v.endsWith("+")) return;
+      exprInput.value = v + " + ";
       return;
     }
     if (key === "A" || key === "B") {
       const v = exprInput.value;
-      // If last char is a letter, maybe we want a space if it's a different letter? 
-      // The user manual says B A = 3. 
-      // For now, let's just append. User can add spaces if they want, 
-      // but usually calculators append to the current operand.
-      exprInput.value += key;
+      const lastChar = v.trim().slice(-1).toUpperCase();
+      
+      if (key === "A" && lastChar === "A") {
+        exprInput.value = v.trimEnd() + " " + key;
+      } else {
+        exprInput.value += key;
+      }
       return;
     }
   }
@@ -195,8 +254,18 @@ function main() {
     chainOutput.textContent = generateChain(stepsInput.value);
   });
 
-  // Initial calculation
+  clearLogBtn.addEventListener("click", () => {
+    LogManager.clearLog();
+    renderAuditLog();
+  });
+
+  printBtn.addEventListener("click", () => {
+    window.print();
+  });
+
+  // Initial setup
   doCalc();
+  renderAuditLog();
   chainOutput.textContent = generateChain(stepsInput.value);
 }
 
