@@ -180,4 +180,16 @@ function main() {
   chainOutput.textContent = generateChain(stepsInput.value);
 }
 
-main();
+if (typeof document !== 'undefined') {
+  main();
+}
+
+if (typeof module !== 'undefined') {
+  module.exports = { 
+    tokenToValue, 
+    valueToTokens, 
+    parseExpression,
+    compute,
+    sumValues: (tokens) => tokens.reduce((acc, t) => acc + tokenToValue(t), 0) 
+  };
+}
